@@ -1,0 +1,2 @@
+rootProject.name = "Load Image Trainee"
+include ':app'
