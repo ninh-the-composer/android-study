@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
@@ -48,13 +47,11 @@ public class HeroAdapter extends RecyclerView.Adapter<HeroAdapter.ViewHolder> {
         Hero hero = heroes.get(i);
 
         viewHolder.lbHeroName.setText(hero.getName());
-        RequestOptions options = new RequestOptions()
+        Glide.with(viewHolder.itemView.getContext())
+                .load(hero.getImageUrl())
                 .centerCrop()
                 .placeholder(R.drawable.ic_launcher_background)
-                .error(R.mipmap.ic_launcher)
-                .dontAnimate()
-                .onlyRetrieveFromCache(true);
-        Glide.with(viewHolder.itemView.getContext()).load(hero.getImageUrl()).apply(options).into(viewHolder.imgAvatar);
+                .into(viewHolder.imgAvatar);
 
         viewHolder.lbHeroName.setOnClickListener(new View.OnClickListener() {
             @Override
