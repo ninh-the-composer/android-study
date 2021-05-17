@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Test CustomDialog</string>
+    <string name="button_name">Generate Custom Dialog</string>
+</resources>
