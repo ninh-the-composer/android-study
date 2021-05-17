@@ -20,13 +20,27 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         loadCat();
+
+        SwipeRefreshLayout mSwpLayout = findViewById(R.id.swipeLayout);
+        mSwpLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadCat();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwpLayout.setRefreshing(false);
+                    }
+                }, 1000);
+            }
+        });
     }
 
     private void loadCat() {
@@ -56,15 +70,4 @@ public class MainActivity extends AppCompatActivity implements SwipeRefreshLayou
                 });
     }
 
-    @Override
-    public void onRefresh() {
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(),"ngu", Toast.LENGTH_LONG).show();
-                SwipeRefreshLayout mSwipeLayout = findViewById(R.id.swipeLayout);
-                mSwipeLayout.setRefreshing(false);
-            }
-        }, 2000);
-    }
 }
