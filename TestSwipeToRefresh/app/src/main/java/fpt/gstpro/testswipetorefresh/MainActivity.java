@@ -51,12 +51,10 @@ public class MainActivity extends AppCompatActivity {
                 .subscribe(new DisposableSingleObserver<List<Cat>>() {
                     @Override
                     public void onSuccess(List<Cat> cats) {
-                        // Cat will do smt here
                         Cat cat = cats.get(0);
                         ImageView imageView = findViewById(R.id.imageView);
                         Glide.with(getApplicationContext())
-                                .load(cat.getUrl()) // Hardcode temporary
-                                .placeholder(R.drawable.ic_launcher_background)
+                                .load(cat.getUrl())
                                 .error(R.drawable.ic_launcher_foreground)
                                 .centerCrop()
                                 .into(imageView);
