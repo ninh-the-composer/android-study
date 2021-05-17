@@ -14,6 +14,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onClickGenerateDialog(View view) {
-
+        CustomDialog customDialog = new CustomDialog(this);
+        customDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+        customDialog.show();
     }
 }
