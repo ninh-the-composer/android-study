@@ -1,0 +1,70 @@
+package fpt.gstpro.testswipetorefresh;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.bumptech.glide.Glide;
+
+import java.util.List;
+
+import fpt.gstpro.testswipetorefresh.model.Cat;
+import fpt.gstpro.testswipetorefresh.service.RetrofitClient;
+import io.reactivex.Single;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableSingleObserver;
+import io.reactivex.schedulers.Schedulers;
+
+public class MainActivity extends AppCompatActivity implements SwipeRefreshLayout.OnRefreshListener {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        loadCat();
+    }
+
+    private void loadCat() {
+        Single<List<Cat>> apiService = RetrofitClient.getInstance().getService().getCat();
+
+        apiService.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new DisposableSingleObserver<List<Cat>>() {
+                    @Override
+                    public void onSuccess(List<Cat> cats) {
+                        // Cat will do smt here
+                        Cat cat = cats.get(0);
+                        ImageView imageView = findViewById(R.id.imageView);
+                        Glide.with(getApplicationContext())
+                                .load(cat.getUrl()) // Hardcode temporary
+                                .placeholder(R.drawable.ic_launcher_background)
+                                .error(R.drawable.ic_launcher_foreground)
+                                .centerCrop()
+                                .into(imageView);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                        Log.d("ERROR", e.getMessage());
+                    }
+                });
+    }
+
+    @Override
+    public void onRefresh() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(getApplicationContext(),"ngu", Toast.LENGTH_LONG).show();
+                SwipeRefreshLayout mSwipeLayout = findViewById(R.id.swipeLayout);
+                mSwipeLayout.setRefreshing(false);
+            }
+        }, 2000);
+    }
+}

@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Test SwipeToRefresh</string>
+    <string name="app_hint">Swipe to get a new Cat</string>
+    <string name="cat_description">Your cat will show up here</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
