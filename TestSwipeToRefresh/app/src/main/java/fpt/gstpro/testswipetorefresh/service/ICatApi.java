@@ -6,9 +6,9 @@ import fpt.gstpro.testswipetorefresh.model.Cat;
 import io.reactivex.Single;
 import retrofit2.http.GET;
 
-public interface CatApi {
+public interface ICatApi {
     String SERVICE_ENDPOINT = "https://api.thecatapi.com";
 
     @GET("/v1/images/search")
-    Single<List<Cat>> getCat();
+    Single<List<Cat>> getCatSingle();
 }

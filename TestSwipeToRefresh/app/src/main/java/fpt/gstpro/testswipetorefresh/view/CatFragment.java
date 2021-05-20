@@ -1,4 +1,4 @@
-package fpt.gstpro.testswipetorefresh;
+package fpt.gstpro.testswipetorefresh.view;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import fpt.gstpro.testswipetorefresh.R;
 
 /**
  * A simple {@link Fragment} subclass.

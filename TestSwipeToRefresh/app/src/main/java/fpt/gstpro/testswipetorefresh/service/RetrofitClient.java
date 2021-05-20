@@ -7,14 +7,14 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitClient {
 
     private static RetrofitClient instance = null;
-    private CatApi myService;
+    private ICatApi myService;
 
     private RetrofitClient() {
-        Retrofit retrofit = new Retrofit.Builder().baseUrl(CatApi.SERVICE_ENDPOINT)
+        Retrofit retrofit = new Retrofit.Builder().baseUrl(ICatApi.SERVICE_ENDPOINT)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
-        myService = retrofit.create(CatApi.class);
+        myService = retrofit.create(ICatApi.class);
     }
 
     public static synchronized RetrofitClient getInstance() {
@@ -24,7 +24,7 @@ public class RetrofitClient {
         return instance;
     }
 
-    public CatApi getService() {
+    public ICatApi getService() {
         return myService;
     }
 }
