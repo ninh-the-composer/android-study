@@ -1,14 +1,16 @@
 package fpt.gstpro.myapi.model;
-
 import com.google.gson.annotations.SerializedName;
 
-public class Hero {
+import java.io.Serializable;
+
+@SuppressWarnings("serial")
+public class Hero implements Serializable {
     private String name;
     @SerializedName("realname")
     private String realName;
     private String team;
     @SerializedName("firstappearance")
-    private int firstAppearance;
+    private Integer firstAppearance;
     @SerializedName("createdby")
     private String createdBy;
     private String publisher;
@@ -18,7 +20,7 @@ public class Hero {
 
     public Hero(){}
 
-    public Hero(String name, String realName, String team, int firstAppearance, String createdBy, String publisher, String imageUrl, String bio) {
+    public Hero(String name, String realName, String team, Integer firstAppearance, String createdBy, String publisher, String imageUrl, String bio) {
         this.name = name;
         this.realName = realName;
         this.team = team;
@@ -41,7 +43,7 @@ public class Hero {
         return team;
     }
 
-    public int getFirstAppearance() {
+    public Integer getFirstAppearance() {
         return firstAppearance;
     }
 
