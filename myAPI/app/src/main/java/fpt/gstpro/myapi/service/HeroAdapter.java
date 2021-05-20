@@ -13,7 +13,7 @@ import com.bumptech.glide.Glide;
 
 import java.util.List;
 
-import fpt.gstpro.myapi.HeroInfomation;
+import fpt.gstpro.myapi.HeroInformationActivity;
 import fpt.gstpro.myapi.R;
 import fpt.gstpro.myapi.model.Hero;
 
@@ -56,15 +56,16 @@ public class HeroAdapter extends RecyclerView.Adapter<HeroAdapter.ViewHolder> {
         viewHolder.lbHeroName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(v.getContext(), HeroInfomation.class);
-                intent.putExtra("name", hero.getName());
-                intent.putExtra("realName", hero.getRealName());
-                intent.putExtra("team", hero.getTeam());
-                intent.putExtra("createdBy", hero.getCreatedBy());
-                intent.putExtra("firstAppearance", hero.getFirstAppearance());
-                intent.putExtra("publisher", hero.getPublisher());
-                intent.putExtra("imageUrl", hero.getImageUrl());
-                intent.putExtra("bio", hero.getBio());
+                Intent intent = new Intent(v.getContext(), HeroInformationActivity.class);
+//                intent.putExtra("name", hero.getName());
+//                intent.putExtra("realName", hero.getRealName());
+//                intent.putExtra("team", hero.getTeam());
+//                intent.putExtra("createdBy", hero.getCreatedBy());
+//                intent.putExtra("firstAppearance", hero.getFirstAppearance());
+//                intent.putExtra("publisher", hero.getPublisher());
+//                intent.putExtra("imageUrl", hero.getImageUrl());
+//                intent.putExtra("bio", hero.getBio());
+                intent.putExtra("hero", hero);
                 v.getContext().startActivity(intent);
             }
         });
