@@ -18,7 +18,7 @@
         </activity>
         <activity android:name=".HeroesMarvelActivity"></activity>
         <activity android:name=".JSONPlaceholderPostsActivity"></activity>
-        <activity android:name=".HeroInfomation"></activity>
+        <activity android:name=".HeroInformationActivity"></activity>
     </application>
 
 </manifest>
