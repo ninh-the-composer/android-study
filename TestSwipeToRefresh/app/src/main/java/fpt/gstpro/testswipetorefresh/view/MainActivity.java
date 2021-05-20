@@ -30,30 +30,9 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mPresenter = new Presenter(this);
-        loadCat();
         addSwipeToRefresh();
     }
 
-    @Override
-    public void loadCat() {
-        Single<List<Cat>> apiService = RetrofitClient.getInstance().getService().getCatSingle();
-
-        apiService.subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<List<Cat>>() {
-                    @Override
-                    public void onSuccess(List<Cat> cats) {
-                        ImageView imageView = findViewById(R.id.imageView);
-                        mPresenter.loadCat(cats.get(0));
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
-                        Log.d("ERROR", e.getMessage());
-                    }
-                });
-    }
 
     @Override
     public void addSwipeToRefresh() {
@@ -61,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements IMainActivity {
         mSwpLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                loadCat();
+                mPresenter.loadCat();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
