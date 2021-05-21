@@ -22,9 +22,11 @@ import io.reactivex.schedulers.Schedulers;
 public class Presenter implements IPresenter {
 
     private MainActivity view;
-    public Presenter(MainActivity view){
+
+    public Presenter(MainActivity view) {
         this.view = view;
     }
+
     @Override
     public void loadCat() {
         Single<List<Cat>> apiService = RetrofitClient.getInstance().getService().getCatSingle();
@@ -34,14 +36,7 @@ public class Presenter implements IPresenter {
                 .subscribe(new DisposableSingleObserver<List<Cat>>() {
                     @Override
                     public void onSuccess(List<Cat> cats) {
-
-                        ImageView imageView = view.findViewById(R.id.imageView);
-
-                        Glide.with(view.getApplicationContext())
-                                .load(cats.get(0).getUrl())
-                                .error(R.drawable.ic_launcher_foreground)
-                                .centerCrop()
-                                .into(imageView);
+                        loadCatInView(cats.get(0));
                     }
 
                     @Override
@@ -52,4 +47,13 @@ public class Presenter implements IPresenter {
                 });
     }
 
+    private void loadCatInView(Cat cat) {
+        ImageView imageView = view.findViewById(R.id.imageView);
+
+        Glide.with(view.getApplicationContext())
+                .load(cat.getUrl())
+                .error(R.drawable.ic_launcher_foreground)
+                .centerCrop()
+                .into(imageView);
+    }
 }
