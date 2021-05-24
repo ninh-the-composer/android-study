@@ -27,4 +27,8 @@ public class Country {
     public void setCapital(String capital) {
         this.capital = capital;
     }
+
+    public String getCountryInfo(){
+        return "Country " + name + " , capital is " + capital + " clicked";
+    }
 }

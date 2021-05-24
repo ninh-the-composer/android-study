@@ -1,4 +1,4 @@
-package fpt.gstpro.architecturestudy.activity;
+package fpt.gstpro.architecturestudy.view;
 
 import android.os.Build;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import fpt.gstpro.architecturestudy.R;
-import fpt.gstpro.architecturestudy.adapter.CountriesAdapter;
+import fpt.gstpro.architecturestudy.controller.CountriesController;
 import fpt.gstpro.architecturestudy.model.Country;
 import fpt.gstpro.architecturestudy.networking.CountriesApi;
 import fpt.gstpro.architecturestudy.networking.CountriesService;
@@ -28,7 +28,9 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.observers.DisposableSingleObserver;
 import io.reactivex.schedulers.Schedulers;
 
-public class MainActivity extends AppCompatActivity {
+public class CountriesActivity extends AppCompatActivity {
+
+    CountriesController controller;
 
     private final CountriesAdapter countriesAdapter;
     private ProgressBar progress;
@@ -37,8 +39,9 @@ public class MainActivity extends AppCompatActivity {
     private CountriesApi apiService;
     private List<Country> countries;
 
-    public MainActivity() {
+    public CountriesActivity() {
         super();
+        controller = new CountriesController(this);
         countriesAdapter = new CountriesAdapter();
         countries = new ArrayList<>();
     }
@@ -46,8 +49,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_countries);
 
         progress = findViewById(R.id.progress);
         listView = findViewById(R.id.listView);
@@ -56,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
         apiService = CountriesService.getInstance().getService();
         listView.setLayoutManager(new LinearLayoutManager(this));
         listView.setAdapter(countriesAdapter);
-        countriesAdapter.setOnItemClickListener(country -> Toast.makeText(MainActivity.this, "Country " + country.getName() + " , capital is " + country.getCapital() + " clicked", Toast.LENGTH_SHORT).show());
+        countriesAdapter.setOnItemClickListener(country -> Toast.makeText(CountriesActivity.this, country.getCountryInfo(), Toast.LENGTH_SHORT).show());
         searchField.addTextChangedListener(new TextWatcher() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -80,37 +82,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        onFetchCountries();
+        controller.onFetchCountries();
     }
 
-    void onFetchCountries() {
-        listView.setVisibility(View.GONE);
-        progress.setVisibility(View.VISIBLE);
-        searchField.setEnabled(false);
-        apiService.getCountries()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new DisposableSingleObserver<List<Country>>() {
-                    @Override
-                    public void onSuccess(@NonNull List<Country> result) {
-                        progress.setVisibility(View.GONE);
-                        listView.setVisibility(View.VISIBLE);
-                        searchField.setEnabled(true);
+    public void onSuccess(List<Country> result){
+        progress.setVisibility(View.GONE);
+        listView.setVisibility(View.VISIBLE);
+        searchField.setEnabled(true);
 
-                        countries = result;
-                        countriesAdapter.updateCountries(result);
-                    }
-
-                    @Override
-                    public void onError(@NonNull Throwable e) {
-                        MainActivity.this.onError(e);
-                    }
-                });
-
-
+        countries = result;
+        countriesAdapter.updateCountries(result);
     }
-
-    void onError(Throwable e) {
+    public void onError(Throwable e) {
         listView.setVisibility(View.GONE);
         progress.setVisibility(View.GONE);
         searchField.setEnabled(false);

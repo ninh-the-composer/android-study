@@ -1,4 +1,4 @@
-package fpt.gstpro.architecturestudy.adapter;
+package fpt.gstpro.architecturestudy.view;
 
 import android.view.LayoutInflater;
 import android.view.View;
